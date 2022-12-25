@@ -1,0 +1,9 @@
+
+.body form > label {
+    display: block;
+}
+
+.body {
+    width: min-content;
+    margin: 0 auto
+}

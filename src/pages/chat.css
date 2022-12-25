@@ -1,0 +1,54 @@
+body  li {
+    cursor: pointer;
+    list-style: none;
+    list-style-type: none;
+    display: inline;
+
+}
+
+body  li:hover {
+    color: blue;
+
+}
+
+body  li:active {
+    color: red;
+
+}
+
+body ul{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    border: 1px solid blue;
+}
+
+
+.body{
+    display: flex;
+}
+
+.chat{
+    margin-left: 20%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.chat input{
+    box-sizing: border-box;
+    width: 100%;
+}
+.caixa-mensagens{
+    border: 2px solid black;
+    width: 700px;
+    height: 600px;
+    overflow: auto;
+    padding: 10px 20px;
+    box-sizing: border-box;
+}
+
+.chat__actions{
+    display: flex;
+    column-gap: 10px;
+}
