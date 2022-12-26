@@ -14,9 +14,10 @@ const userRepo = require('./repositories/userRepo.js')
 
 const absolutePath = path.join(__dirname, 'pages');
 app.use(express.static(absolutePath));
+app.use(express.json());
 routes(app);
-
-dbMysql.sync({force: true}).then(()=> {
+process.env.SECRET = 'Teste'
+dbMysql.sync().then(()=> {
     console.log('Fazendo migração')
 }).catch((reason) => {
     console.log(reason);

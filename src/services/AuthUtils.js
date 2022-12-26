@@ -1,29 +1,29 @@
+const { response } = require('express');
 const jwt = require('jsonwebtoken')
 const { v4: uuid } = require('uuid')
 
 class AuthUtils {
 
-    static generateJwtToken() {
+    static generateJwtToken(user) {
         let secret = process.env.SECRET;
         const token = jwt.sign({}, secret, {
             algorithm: 'HS256',
             audience: 'site',
             expiresIn: "10m",
             jwtid: uuid(),
-            subject: '',
+            subject: user.email,
+            issuer: 'webapp'
         })
         return token;
     }
 
     static decodeToken(token) {
         try {
-        let secret = process.env.SECRET;
-            const decoded = jwt.verify(token, secret)
+            let secret = process.env.SECRET;
+            let decoded = jwt.verify(token, secret)
             return decoded;
         } catch (error) {
-            console.log(error.message);
-        }finally{
-            return null;
+            return null
         }
     }
 }
