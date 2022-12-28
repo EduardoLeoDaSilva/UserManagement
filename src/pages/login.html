@@ -7,23 +7,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login de usuário</title>
     <link rel="stylesheet" href="./style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 
 <body>
 
     <div class="body">
-        <form>
-
+        <form action="/api/user/logIn" method="post" id="formLogin">
             <label for="email">Email</label>
             <input type="email" name="email" id="email" required>
             <label for="password">Senha</label>
             <input type="password" name="password" id="password" required>
             <br>
             <br>
-            <input type="submit" value="Cadastrar">
+            <input type="submit" value="Logar">
         </form>
     </div>
 
 </body>
+
+<script type="text/javascript">
+
+    $('#formLogin').on('submit', function (e) {
+        e.preventDefault();
+        $.post({
+            contentType: 'application/json',
+            url: '/api/user/login',
+            data: JSON.stringify({
+                email: $('#email').val(),
+                password: $('#password').val(),
+            })
+
+        }).then((e, t) => {
+            if(t == 'success'){
+                 localStorage.setItem('token', e)
+                 localStorage.setItem('email', $('#email').val())
+                 window.location.replace('http://localhost:3000/chat.html')
+            }
+        });
+    });
+
+
+</script>
 
 </html>

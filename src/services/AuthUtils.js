@@ -6,13 +6,15 @@ class AuthUtils {
 
     static generateJwtToken(user) {
         let secret = process.env.SECRET;
-        const token = jwt.sign({}, secret, {
+        const token = jwt.sign({
+            id: user.id
+        }, secret, {
             algorithm: 'HS256',
             audience: 'site',
-            expiresIn: "10m",
+            expiresIn: "1h",
             jwtid: uuid(),
-            subject: user.email,
-            issuer: 'webapp'
+            subject: user.id,
+            issuer: 'webapp',
         })
         return token;
     }

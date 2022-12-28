@@ -6,6 +6,9 @@ const AuthUtils = require('../services/AuthUtils.js')
 
 userRoutes.use((req, res, next) => {
     const authorization = req.headers.authorization;
+    if(authorization == typeof String){
+        authorization = authorization.toString().replace('Bearer', '');
+    }
     let result = AuthUtils.decodeToken(authorization);
     console.log(req.url)
     if (req.url.toLowerCase() != '/login') {

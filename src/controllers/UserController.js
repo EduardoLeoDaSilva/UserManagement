@@ -6,7 +6,6 @@ class UserController {
 
         try {
 
-             console.log(header);
             let result = await userRepo.findAll();
 
             if (result) {

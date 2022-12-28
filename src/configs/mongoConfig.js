@@ -10,6 +10,6 @@ client.on('connection', () => {
     console.log('Conectado com sucesso no mongo db')
 })
 
-let collection = client.db('Messenger').collection('Chats');
+let collection = client.db('Messenger');
 
 module.exports = collection;

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
     <link rel="stylesheet" href="./chat.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
@@ -15,25 +17,76 @@
 
         <div>
             <h2>Amigos</h2>
-            <ul>
-                <li>Nelson</li>
-                <li>Tânia</li>
-                <li>Eduardo</li>
-                <li>Nelsinho</li>
-                <li>Rebeca</li>
+            <ul id="listaUsuarios">
             </ul>
         </div>
 
         <div class="chat">
-            <div class="caixa-mensagens">
+            <div class="caixa-mensagens" id="caixaMensagens">
             </div>
             <div class="chat__actions">
                 <input type="text" id="msg" name="msg">
-                <button id="btnEnviar">Enviar</button>
+                <button id="btnEnviar" onclick="enviarMsg()">Enviar</button>
             </div>
         </div>
     </div>
 
 </body>
+
+<script type="text/javascript">
+
+
+    var socket = io();
+
+    socket.on('msg', function (e) {
+        $('#caixaMensagens').append(`<p>${e}</p>`)
+        console.log(e)
+    })
+
+    $.get({
+        contentType: 'application/json',
+        url: '/api/user',
+        headers: {
+            'Authorization': `${localStorage.getItem('token')}`
+        }
+    }).then((e, t) => {
+        if (t == 'success') {
+            console.log(e);
+            let email = localStorage.getItem('email');
+            console.log(email);
+
+            let lis = e.filter((x) => x.email != email).map(element => {
+                return `<li onclick="iniciarChat('${element.id}')" id='${element.id}'>${element.name}</li>`;
+            });
+            $('#listaUsuarios').html(lis)
+        }
+    });
+
+    function iniciarChat(id) {
+
+
+        // socket.io.join(key);
+        localStorage.setItem('idAmigo', id)
+        socket.emit('iniciarChat', JSON.stringify({
+            token: localStorage.getItem('token'),
+            id: id,
+            msg: []
+        }));
+    }
+
+    function enviarMsg(id) {
+        
+
+        let msg = $('#msg').val();
+        let idAmigo = localStorage.getItem('idAmigo')
+        socket.emit('sendMessage', JSON.stringify({
+            token: localStorage.getItem('token'),
+            id: idAmigo,
+            msg: msg
+        }));
+    }
+
+
+</script>
 
 </html>
